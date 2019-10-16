@@ -126,6 +126,29 @@ export const appRouter = [
     ]
   },
   {
+    path: '/announcement',
+    name: 'announcement',
+    title: '公告管理',
+    meta: {
+      requireAuth: true
+    },
+    component: Layout,
+    children: [
+      {
+        path: 'addAnnouncement',
+        name: 'addAnnouncement',
+        title: '添加公告',
+        component: () => import('../pages/announcement/addAnnouncement')
+      },
+      {
+        path: 'announcementList',
+        name: 'announcementList',
+        title: '公告列表',
+        component: () => import('../pages/announcement/announcementList')
+      }
+    ]
+  },
+  {
     path: '/system',
     name: 'system',
     title: '系统管理',
@@ -159,23 +182,23 @@ export const appRouter = [
       }
     ]
   },
-  // {
-  //   path: '/access',
-  //   name: 'access',
-  //   title: '权限管理',
-  //   meta: {
-  //     requireAuth: true
-  //   },
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'access_index',
-  //       title: '权限管理',
-  //       component: () => import('../pages/access/index')
-  //     }
-  //   ]
-  // },
+  {
+    path: '/authorization',
+    name: 'access',
+    title: '权限管理',
+    meta: {
+      requireAuth: true
+    },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'access_index',
+        title: '权限管理',
+        component: () => import('../pages/authorization/index')
+      }
+    ]
+  },
   // {
   //   path: '/log',
   //   name: 'log',

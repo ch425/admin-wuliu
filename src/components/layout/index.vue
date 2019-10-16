@@ -41,7 +41,7 @@
           :style="{transform: 'rotateZ(' + (this.isCollapsed ? '90' : '0') + 'deg)', fontSize: '20px'}"
         ></i>
       </div>
-      <div class="title float-left">VUE-ADMIN 后台管理系统</div>
+      <div class="title float-left">物流管理1701 后台管理系统</div>
       <ul class="menu-list float-right">
         <li v-if="user" class="menu-item" style="padding: 0;">
           <el-dropdown
@@ -125,6 +125,15 @@ export default {
           children: [{ path: "/form/render", title: "渲染表单" }]
         },
         {
+          path: "/announcement",
+          title: "公告管理",
+          icon: "el-icon-tickets",
+          children: [
+            { path: "/announcement/addAnnouncement", title: "添加公告" },
+            { path: "/announcement/announcementList", title: "公告列表" }
+          ]
+        },
+        {
           path: "/system/index",
           title: "系统管理",
           icon: "el-icon-s-tools"
@@ -135,7 +144,7 @@ export default {
           icon: "el-icon-s-custom"
         },
         {
-          path: "/access/index",
+          path: "/authorization/index",
           title: "权限管理",
           icon: "el-icon-info"
         },

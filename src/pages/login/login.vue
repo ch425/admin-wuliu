@@ -2,7 +2,7 @@
   <div class="login">
     <div class="middle-wrapper">
       <div class="title-wrapper">
-        <div class="title">VUE-ADMIN 后台管理系统</div>
+        <div class="title">物流管理1701 后台管理系统</div>
       </div>
       <div class="login-form">
         <el-form
@@ -11,12 +11,12 @@
           :rules="rules">
           <el-form-item prop="username">
             <el-input v-model="form.username" placeholder="请输入账号">
-              <i slot="prefix" class="el-input__icon el-icon-adm-user" style="font-size: 18px;"></i>
+              <i slot="prefix" class="el-icon-user" style="font-size: 18px;"></i>
             </el-input>
           </el-form-item>
           <el-form-item prop="password">
             <el-input :type="passwordType" v-model="form.password" placeholder="请输入密码">
-              <i slot="prefix" class="el-input__icon el-icon-adm-password" style="font-size: 18px;"></i>
+              <i slot="prefix" class="el-icon-lock" style="font-size: 18px;"></i>
               <i slot="suffix" class="el-input__icon el-icon-view" style="cursor: pointer;"
                  @click="_togglePasswordType"></i>
             </el-input>
@@ -25,7 +25,7 @@
             <div class="check-code-wrapper">
               <div class="yanzhengma-wrapper">
                 <el-input v-model="form.yanzhengma" @keyup.enter.native="login('loginForm')" placeholder="请输入验证码">
-                  <i slot="prefix" class="el-input__icon el-icon-adm-vertification" style="font-size: 18px;"></i>
+                  <i slot="prefix" class="el-icon-chat-dot-round" style="font-size: 18px;"></i>
                 </el-input>
               </div>
               <div class="validate-code-wrapper">
@@ -53,7 +53,7 @@
 </template>
 <script>
   import validateCode from '../../components/ValidateCode/index';
-
+  import {Login} from '../../server/index'
   export default {
     created () {
     },
@@ -109,16 +109,17 @@
         });
       },
       login () {
-        /*
-         *  在这边可以进行登陆请求
-         *  将请求返回的Token对象存到store中
-         *  @Token  token对象
-        */
-
-        let token = 'a94756da-2962-40ae-bdea-787fd02c9d92';
-
-        this.$store.commit('SET_TOKEN', token);
-        this.$router.replace('home');
+       var params = {
+         username: this.form.username,
+         password: this.form.password
+       }
+        Login(params).then(({data})=>{
+          if(data.status == 200){
+            let token = data.data.token;
+            this.$store.commit('SET_TOKEN', token);
+            this.$router.replace('home');
+          }
+        })
       }
     },
     components: {
