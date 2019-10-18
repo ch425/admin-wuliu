@@ -54,11 +54,11 @@
               <i class="el-icon-user-solid icon"></i>
               <span class="text">{{user.name || user.username}}</span>
             </div>
-            <el-dropdown-menu slot="dropdown">
+            <!-- <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="a">{{user.username}}</el-dropdown-item>
               <el-dropdown-item command="b">{{user.name}}</el-dropdown-item>
               <el-dropdown-item command="b">{{user.type.name}}</el-dropdown-item>
-            </el-dropdown-menu>
+            </el-dropdown-menu> -->
           </el-dropdown>
         </li>
         <li class="menu-item">
@@ -179,13 +179,13 @@ export default {
     },
     getUser() {
       let User = {
-        id: "7f859967-9b12-441c-badc-8a7d312f6da4",
-        username: "admin",
-        name: "luichooy",
-        type: {
-          code: 0,
-          name: "超级管理员"
-        }
+        id: sessionStorage.getItem('token'),
+        username: JSON.parse(window.localStorage.getItem('userInfo')).name,
+        name: JSON.parse(window.localStorage.getItem('userInfo')).name
+        // type: {
+        //   code: 0,
+        //   name: "超级管理员"
+        // }
       };
 
       this.$store.commit("SET_USER", User);
@@ -354,7 +354,7 @@ export default {
   left: $siderbarWidth;
   right: 0;
   top: $topbarHeight;
-  bottom: 0;
+  bottom: 40px;
   padding: 16px;
   overflow: auto;
   transition: all 0.3s ease-in-out;
@@ -368,6 +368,7 @@ export default {
 .footer{
   position: fixed;
   bottom: 0;
+  background-color: #ffffff;
   // left: 200px;
   left: 0;
   right: 0;

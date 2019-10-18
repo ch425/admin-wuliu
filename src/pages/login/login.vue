@@ -115,7 +115,9 @@
        }
         Login(params).then(({data})=>{
           if(data.status == 200){
+            console.log(data)
             let token = data.data.token;
+            window.localStorage.setItem('userInfo',JSON.stringify(data.data.userInfo))
             this.$store.commit('SET_TOKEN', token);
             this.$router.replace('home');
           }
