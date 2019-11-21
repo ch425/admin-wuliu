@@ -124,7 +124,7 @@ export default {
       },
       users: [],      // 权限列表
       checkAll: false,
-      checkedMenus: [1],
+      checkedMenus: [],
       isIndeterminate: true,
       // 富文本(舍弃)
       editorOption:{}
@@ -203,13 +203,14 @@ export default {
         time: this.form.date,
         saveTime: time,
         type: type,
+        email: this.checkedMenus.join(','),
         poster: JSON.parse(window.localStorage.getItem('userInfo')).userName
       };
       SendEmail(params).then(({data})=>{
         console.log(data)
         if(data.status == 200){
           AddAnnouncement(params).then(({ data }) => {
-            // console.log(data);
+            console.log(data);
             if (data.status == 200) {
               this.$message.success('添加成功');
               this.$router.push({

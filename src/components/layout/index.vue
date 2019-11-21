@@ -119,10 +119,13 @@ export default {
           ]
         },
         {
-          path: "/form",
-          title: "表单管理",
+          path: "/photo",
+          title: "相册管理",
           icon: "el-icon-tickets",
-          children: [{ path: "/form/render", title: "渲染表单" }]
+          children: [
+            { path: "/photo/index", title: "相册管理" },
+            { path: "/photo/add", title: "添加相册" }
+          ]
         },
         {
           path: "/announcement",

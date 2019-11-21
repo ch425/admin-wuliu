@@ -12,7 +12,7 @@
         <el-button type="primary" style="float: right;" @click="addUserInfo">添加</el-button>
     </div>
     <div>
-      <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" style="width: 100%">
+      <el-table :data="tableData.slice((currentPage-1)*pageSize,currentPage*pageSize)" stripe style="width: 100%">
         <el-table-column prop="id" label="学号" align="center"></el-table-column>
         <el-table-column prop="name" label="姓名" align="center"></el-table-column>
         <el-table-column prop="email" label="邮箱" align="center"></el-table-column>

@@ -109,19 +109,25 @@ export const appRouter = [
     ]
   },
   {
-    path: '/form',
-    name: 'form',
-    title: '表单管理',
+    path: '/photo',
+    name: 'photo',
+    title: '相册管理',
     meta: {
       requireAuth: true
     },
     component: Layout,
     children: [
       {
-        path: 'render',
-        name: 'render',
-        title: '渲染表单',
-        component: () => import('../pages/form/render/render')
+        path: 'index',
+        name: 'index',
+        title: '相册管理',
+        component: () => import('../pages/photo/index/index')
+      },
+      {
+        path: 'add',
+        name: 'add',
+        title: '添加相册',
+        component: () => import('../pages/photo/add/index')
       }
     ]
   },

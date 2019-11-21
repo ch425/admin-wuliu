@@ -2,8 +2,10 @@ import api from '../api/index'
 import axios from 'axios'
 import qs from 'qs'
 if(window.location.href.indexOf('139.155.73.51')!=-1){
+    console.log('线上')
     axios.defaults.baseURL = 'http://139.155.73.51:8082'
 } else {
+    console.log('线下')
     axios.defaults.baseURL = 'http://localhost:8082'
 }
 // 登录
@@ -93,10 +95,48 @@ export function AddAnnouncement(params){
     })
 }
 
+// 发送邮件
 export function SendEmail(params){
     return new Promise((resolve,reject)=>{
         axios({
             url: api.sendEmail_api,
+            method: 'POST',
+            headers:{
+                "Content-Type": 'application/x-www-form-urlencoded'
+            },
+            data: qs.stringify(params)
+        }).then(data=>{
+            resolve(data)
+        }).catch(error=>{
+            console.log(error)
+        })
+    })
+}
+
+
+// 添加活动图片
+export function addActivityPhoto(params) {
+    return new Promise((resolve,reject)=>{
+        axios({
+            url: api.addActivityPhoto_api,
+            method: 'POST',
+            headers:{
+                "Content-Type": 'application/x-www-form-urlencoded'
+            },
+            data: qs.stringify(params)
+        }).then(data=>{
+            resolve(data)
+        }).catch(error=>{
+            console.log(error)
+        })
+    })
+}
+
+// 查询活动图片列表
+export function queryActivityPhoto(params){
+    return new Promise((resolve,reject)=>{
+        axios({
+            url: api.queryActivityPhoto_api,
             method: 'POST',
             headers:{
                 "Content-Type": 'application/x-www-form-urlencoded'
