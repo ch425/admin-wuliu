@@ -13,11 +13,12 @@
         :default-active="$route.path"
       >
         <template v-for="(item, index) in sider_menu_data">
-          <el-menu-item class="menu-item" v-if="!item.children" :index="item.path" :key="index">
+          <el-menu-item class="menu-item" v-if="!item.children&&item.show.indexOf(role_type)>-1" :index="item.path" :key="index">
             <i :class="item.icon"></i>
             <span slot="title">{{item.title}}</span>
           </el-menu-item>
-          <el-submenu v-else :index="item.path">
+          <el-submenu v-else-if="item.children&&item.show.indexOf(role_type)>-1" :index="item.path">
+            <!-- -if="item.children&&item.show.indexOf(role_type)>0" -->
             <template slot="title">
               <i :class="item.icon"></i>
               <span slot="title">{{item.title}}</span>
@@ -25,6 +26,7 @@
             <el-menu-item
               class="menu-item"
               v-for="(sub_item, sub_index) in item.children"
+              v-if="sub_item.show.indexOf(role_type)>-1"
               :index="sub_item.path"
               :key="sub_index"
             >
@@ -58,7 +60,7 @@
               <el-dropdown-item command="a">{{user.username}}</el-dropdown-item>
               <el-dropdown-item command="b">{{user.name}}</el-dropdown-item>
               <el-dropdown-item command="b">{{user.type.name}}</el-dropdown-item>
-            </el-dropdown-menu> -->
+            </el-dropdown-menu>-->
           </el-dropdown>
         </li>
         <li class="menu-item">
@@ -78,88 +80,98 @@
         <router-view></router-view>
       </div>
     </div>
-    <footer class="footer">
-      copyright@2019.10.14
-    </footer>
+    <footer class="footer">copyright@2019.10.14</footer>
   </div>
 </template>
 <script>
 import { sessionStorage } from "../../assets/js/storage/index";
-
+import {appRouter} from '../../router/route'
+import {mapGetters,mapActions} from 'vuex'
 export default {
   created() {
     this.checkAuth();
   },
   data() {
     return {
+      // sider_menu_data: appRouter,
       sider_menu_data: [
         {
           path: "/home",
           title: "首页",
+          show:[0,1,2,3,4],
           icon: "el-icon-s-home"
         },
         {
           path: "/tables",
           title: "表格管理",
           icon: "el-icon-s-operation",
+          show:[0,1,2,3,4],
           children: [
-            { path: "/tables/basic", title: "基本表格" },
-            { path: "/tables/sort", title: "排序表格" },
-            { path: "/tables/filter", title: "筛选表格" }
+            { path: "/tables/basic", title: "基本表格", show:[0,1,2,3,4]},
+            { path: "/tables/sort", title: "排序表格", show:[0,1,2,3,4] },
+            { path: "/tables/filter", title: "筛选表格" , show:[0,1,2,3,4]}
           ]
         },
         {
           path: "/charts",
           title: "图表管理",
           icon: "el-icon-s-data",
+          show: [0,1,2,3,4],
           children: [
-            { path: "/charts/bar", title: "柱状图" },
-            { path: "/charts/line", title: "折线图" },
-            { path: "/charts/pie", title: "饼图" }
+            { path: "/charts/bar", title: "柱状图", show:[0,1,2,3,4] },
+            { path: "/charts/line", title: "折线图", show:[0,1,2,3,4] },
+            { path: "/charts/pie", title: "饼图", show:[0,1,2,3,4] }
           ]
         },
         {
           path: "/photo",
           title: "相册管理",
           icon: "el-icon-tickets",
+          show:[0,1,2,3,4],
           children: [
-            { path: "/photo/index", title: "相册管理" },
-            { path: "/photo/add", title: "添加相册" }
+            { path: "/photo/index", title: "相册管理", show:[0,1,2,3,4] },
+            { path: "/photo/add", title: "添加相册", show:[0,1,2,3,4] }
           ]
         },
         {
           path: "/announcement",
           title: "公告管理",
           icon: "el-icon-tickets",
+          show:[0,1,2,3,4],
           children: [
-            { path: "/announcement/addAnnouncement", title: "添加公告" },
-            { path: "/announcement/announcementList", title: "公告列表" }
+            { path: "/announcement/addAnnouncement", title: "添加公告", show:[4] },
+            { path: "/announcement/announcementList", title: "公告列表", show:[0,1,2,3,4] }
           ]
         },
         {
           path: "/system/index",
           title: "系统管理",
-          icon: "el-icon-s-tools"
+          icon: "el-icon-s-tools",
+          show:[0,1,2,3,4]
         },
         {
           path: "/user/index",
           title: "用户管理",
-          icon: "el-icon-s-custom"
+          icon: "el-icon-s-custom",
+          show:[0,1,2,3,4]
         },
         {
           path: "/authorization/index",
           title: "权限管理",
-          icon: "el-icon-info"
+          icon: "el-icon-info",
+          show:[4]
         },
         {
           path: "/log/index",
           title: "操作日志",
-          icon: "el-icon-s-opportunity"
+          icon: "el-icon-s-opportunity",
+          show:[4]
         },
         {
           path: "/test/index",
           title: "测试",
-          icon: "el-icon-c-scale-to-original"
+          icon: "el-icon-c-scale-to-original",
+          show:[4]
         }
       ],
       isCollapsed: false,
@@ -167,11 +179,21 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({role_type: 'getUserType'}),
     user() {
       return this.$store.state.user;
     }
   },
+  beforeMount(){
+    this.changeUserType(JSON.parse(window.localStorage.getItem("userInfo")).role)
+  },
+  created(){
+    this.changeUserType(JSON.parse(window.localStorage.getItem("userInfo")).role)
+    console.log(appRouter)
+    console.log(this.role_type,1111);
+  },
   methods: {
+    ...mapActions(['changeUserType']),
     checkAuth() {
       let token = this.$store.state.token || sessionStorage.getItem("token");
       if (!token) {
@@ -182,9 +204,9 @@ export default {
     },
     getUser() {
       let User = {
-        id: sessionStorage.getItem('token'),
-        username: JSON.parse(window.localStorage.getItem('userInfo')).name,
-        name: JSON.parse(window.localStorage.getItem('userInfo')).name
+        id: sessionStorage.getItem("token"),
+        username: JSON.parse(window.localStorage.getItem("userInfo")).name,
+        name: JSON.parse(window.localStorage.getItem("userInfo")).name
         // type: {
         //   code: 0,
         //   name: "超级管理员"
@@ -368,7 +390,7 @@ export default {
     height: 100%;
   }
 }
-.footer{
+.footer {
   position: fixed;
   bottom: 0;
   background-color: #ffffff;

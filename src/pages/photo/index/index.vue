@@ -10,12 +10,11 @@
                         fit="contain"
                         style="width: 30%;margin:10px;"
                         :src="img" 
-                        z-index="100000"
+                        :z-index="100000"
                         :lazy="true"
                         v-for="(img,idx) in item.activity_img" :key="idx"
                         :preview-src-list="getSrcList(item.activity_img,idx)">
                     </el-image>
-                    <!-- <img :src="img" alt="" v-for="(img,idx) in item.activity_img" :key="idx"> -->
                 </div>
             </div>
         </div>

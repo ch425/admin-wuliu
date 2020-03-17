@@ -1,6 +1,7 @@
 const state = {
   user: null,
-  token: ''
+  token: '',
+  role_type: 0
 };
 
 export default state;

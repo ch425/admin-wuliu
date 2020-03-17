@@ -54,6 +54,7 @@
 <script>
   import validateCode from '../../components/ValidateCode/index';
   import {Login} from '../../server/index'
+  import {mapActions} from 'vuex'
   export default {
     created () {
     },
@@ -91,6 +92,9 @@
       };
     },
     methods: {
+      ...mapActions({
+        changeUserType: 'changeUserType'
+      }),
       _setCheckCode (value) {
         this.checkCode = value;
       },
@@ -120,6 +124,9 @@
             window.localStorage.setItem('userInfo',JSON.stringify(data.data.userInfo))
             this.$store.commit('SET_TOKEN', token);
             this.$router.replace('home');
+            this.changeUserType(data.data.userInfo.role)
+          } else {
+            this.$message.error(data.msg)
           }
         })
       }
